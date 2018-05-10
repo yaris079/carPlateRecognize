@@ -1,0 +1,25 @@
+﻿生成启动时间为 2018/5/9 23:38:03。
+     1>项目“F:\study\visual studio 2015\carPlateRecognize\carPlateRecognize\carPlateRecognize.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I.\GeneratedFiles /I. /ID:\Qt\Qt5.9.1\5.9.1\msvc2015_64\include /I.\GeneratedFiles\Debug /ID:\Qt\Qt5.9.1\5.9.1\msvc2015_64\include\QtCore /ID:\Qt\Qt5.9.1\5.9.1\msvc2015_64\include\QtGui /ID:\Qt\Qt5.9.1\5.9.1\msvc2015_64\include\QtANGLE /ID:\Qt\Qt5.9.1\5.9.1\msvc2015_64\include\QtWidgets /ID:\OpenNI2\Include\ /Zi /nologo /W1 /WX- /MP /Od /D UNICODE /D WIN32 /D WIN64 /D QT_DLL /D QT_CORE_LIB /D QT_GUI_LIB /D QT_WIDGETS_LIB /D _CRT_SECURE_NO_WARNINGS /D GLUT_BUILDING_LIB /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc140.pdb" /Gd /TP /errorReport:prompt PlateLocation.cpp
+         PlateLocation.cpp
+     1>E:\opencv_contrib\install\include\opencv2/core/mat.hpp(2586): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>E:\opencv_contrib\install\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>E:\opencv_contrib\install\include\opencv2/imgproc.hpp(592): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"F:\study\visual studio 2015\carPlateRecognize\x64\Debug\\carPlateRecognize.exe" /NOLOGO /LIBPATH:D:\Qt\Qt5.9.1\5.9.1\msvc2015_64\lib /LIBPATH:E:\opencv\build\x64\vc14\lib /LIBPATH:E:\opencv_contrib\install\x86\vc12\lib /LIBPATH:D:\OpenNI2\Lib\ qtmaind.lib Qt5Cored.lib Qt5Guid.lib Qt5Widgetsd.lib Kinect20.lib openNI64.lib opencv_world320.lib opengl32.lib glu32.lib glut64.lib glfw3.lib glew32.lib pcl_kdtree_debug.lib pcl_io_debug.lib pcl_search_debug.lib pcl_segmentation_debug.lib pcl_apps_debug.lib pcl_features_debug.lib pcl_filters_debug.lib pcl_visualization_debug.lib pcl_common_debug.lib "flann_cpp_s-gd.lib" "libboost_system-vc100-mt-gd-1_47.lib" "libboost_filesystem-vc100-mt-gd-1_47.lib" "libboost_thread-vc100-mt-gd-1_47.lib" "libboost_date_time-vc100-mt-gd-1_47.lib" "libboost_iostreams-vc100-mt-gd-1_47.lib" "vtkalglib-gd.lib" "vtkCharts-gd.lib" "vtkCommon-gd.lib" "vtkDICOMParser-gd.lib" "vtkexoIIc-gd.lib" "vtkexpat-gd.lib" "vtkFiltering-gd.lib" "vtkfreetype-gd.lib" "vtkftgl-gd.lib" "vtkGenericFiltering-gd.lib" "vtkGeovis-gd.lib" "vtkGraphics-gd.lib" "vtkhdf5-gd.lib" "vtkHybrid-gd.lib" "vtkImaging-gd.lib" "vtkInfovis-gd.lib" "vtkIO-gd.lib" "vtkjpeg-gd.lib" "vtklibxml2-gd.lib" "vtkmetaio-gd.lib" "vtkNetCDF-gd.lib" "vtkNetCDF_cxx-gd.lib" "vtkpng-gd.lib" "vtkproj4-gd.lib" "vtkRendering-gd.lib" "vtksqlite-gd.lib" "vtksys-gd.lib" "vtktiff-gd.lib" "vtkverdict-gd.lib" "vtkViews-gd.lib" "vtkVolumeRendering-gd.lib" "vtkWidgets-gd.lib" "vtkzlib-gd.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"F:\study\visual studio 2015\carPlateRecognize\x64\Debug\carPlateRecognize.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\study\visual studio 2015\carPlateRecognize\x64\Debug\carPlateRecognize.lib" /MACHINE:X64 x64\Debug\CharPartition.obj
+         x64\Debug\CharRecognition.obj
+         x64\Debug\main.obj
+         x64\Debug\MainWindow.obj
+         x64\Debug\PlateLocation.obj
+         x64\Debug\PlateRecognition.obj
+         x64\Debug\moc_MainWindow.obj
+         x64\Debug\qrc_carPlateRecognize.obj
+         carPlateRecognize.vcxproj -> F:\study\visual studio 2015\carPlateRecognize\x64\Debug\carPlateRecognize.exe
+     1>已完成生成项目“F:\study\visual studio 2015\carPlateRecognize\carPlateRecognize\carPlateRecognize.vcxproj”(Build 个目标)的操作。
+
+已成功生成。
+
+已用时间 00:00:02.50
