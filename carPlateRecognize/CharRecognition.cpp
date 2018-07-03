@@ -24,7 +24,7 @@ QString CharRecognition::recognizeChar(IplImage **srcIplImage)
             return QString("");
         }
 
-        int r_result[43];
+        int r_result[45];
         cvThreshold(src, src, 100, 255, CV_THRESH_BINARY);
 
         IplImage *src1 = 0;
@@ -33,9 +33,10 @@ QString CharRecognition::recognizeChar(IplImage **srcIplImage)
         0,1,2,3,4,5,6,7,8,9[0-9]
         a,b,c,d,e,f,g,h,j,k,l,m,n,p,q,r,s,t,u,v,w,x,y,z(i, o 不可用)[10-33]
         [京][沪][津][渝][冀][晋][蒙][辽][吉][黑][苏][浙][皖][闽][赣][鲁][豫][鄂][湘][粤][桂][琼][川][贵][云][藏][陕][甘][青][宁][新][34-64]
-        */
+        因为数据不够，仅有部分省份模板
+		*/
 
-        for (i = 0; i < 43; i++) {
+        for (i = 0; i < 45; i++) {
             // If you use Windows, please uncomment this following code, and set the correct path of template floder.
             sprintf(templatePath, "./imgs/template/%d.jpg", i);
 
@@ -56,7 +57,7 @@ QString CharRecognition::recognizeChar(IplImage **srcIplImage)
         int best = 0, best_value;
         best_value = r_result[0];
 
-        for (i = 0; i < 43; i++)
+        for (i = 0; i < 45; i++)
         if (r_result[i] < best_value) {
             best_value = r_result[i];
             best = i;
@@ -103,6 +104,12 @@ QString CharRecognition::recognizeChar(IplImage **srcIplImage)
 				break;
 			case 42:
 				recognizeResult += "皖";
+				break;
+			case 43:
+				recognizeResult += "冀";
+				break;
+			case 44:
+				recognizeResult += "豫";
 				break;
             default:
                 // 剩余的中文字暂时不处理

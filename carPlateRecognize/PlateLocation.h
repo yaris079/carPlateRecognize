@@ -13,7 +13,7 @@ private:
     static int myDiffProj(IplImage *src, IplImage *dst);
     static int myRemoveBorder(IplImage *src, int *post);
     static void myScope(IplImage *scopecopy, int x, int y, int *pionter);
-    static int myGetThreshold(IplImage *src);
+	static int getBlueMask(IplImage *src);
 };
 
 #endif // PLATELOCATION_H

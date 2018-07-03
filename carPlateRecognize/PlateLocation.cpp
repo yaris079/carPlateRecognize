@@ -144,11 +144,44 @@ IplImage * PlateLocation::locatePlate(const QString &srcImagePath)
             }
         }
 
-	//在原图像中圈出车牌
+	//利用HSI颜色空间找到车牌区域
+	double proportion, minProportion = 0;
 	for (i = 0;i < count;i++) {
-		cvRectangle(pImgSrc, cvPoint(ROI_rect[i].x, ROI_rect[i].y), cvPoint(ROI_rect[i].x+ ROI_rect[i].width, ROI_rect[i].y+ ROI_rect[i].height), cvScalar(0, 0, 255), 3, 4, 0);
-	}
+		IplImage *pImgtemp = NULL;         //感兴趣的部分
+		cvSetImageROI(pImgSrc, ROI_rect[i]);
+		pImgtemp = cvCreateImage(cvSize(ROI_rect[i].width, ROI_rect[i].height), IPL_DEPTH_8U, 3);
+		cvCopy(pImgSrc, pImgtemp);
+		cvResetImageROI(pImgSrc);
+		IplImage* hsv = cvCreateImage(cvGetSize(pImgtemp), IPL_DEPTH_8U, 3);//存放hsv颜色空间图像
+		cvCvtColor(pImgtemp, hsv, CV_BGR2HSV);//转换RGB2HSV
+		int sum,area;
+		sum = getBlueMask(hsv);
+		area = pImgtemp->height * pImgtemp->width;
 
+		proportion = (double)sum / area;
+		if (proportion > minProportion) {
+			ROI_rect[count] = ROI_rect[i];
+			minProportion = proportion;
+		}
+		/*
+		//调试代码，查看hsv效果
+		qDebug() << sum << ' ' << area;
+		char asd[10];
+		char assd[10];
+		sprintf(asd, "%d", i);
+		sprintf(assd, "%d", i+10);
+		cvShowImage(asd,hsv);
+		cvShowImage(assd, pImgtemp);
+		*/
+		cvReleaseImage(&pImgtemp);
+		cvReleaseImage(&hsv);
+	}
+	
+	//在原图像中圈出车牌
+	//cvRectangle(pImgSrc, cvPoint(ROI_rect[count].x, ROI_rect[count].y), cvPoint(ROI_rect[count].x+ ROI_rect[count].width, ROI_rect[count].y+ ROI_rect[count].height), cvScalar(0, 0, 255), 3, 4, 0);
+	for (i = 0;i < count;i++) {
+		cvRectangle(pImgSrc, cvPoint(ROI_rect[i].x, ROI_rect[i].y), cvPoint(ROI_rect[i].x + ROI_rect[i].width, ROI_rect[i].y + ROI_rect[i].height), cvScalar(0, 0, 255), 3, 4, 0);
+	}
     if (count == 0) {
         QMessageBox::warning(NULL, "警告", "未找到车牌区域,请选择其他图片");
         return NULL;
@@ -157,8 +190,8 @@ IplImage * PlateLocation::locatePlate(const QString &srcImagePath)
     IplImage *pImg8uROI = NULL;         //感兴趣的部分
 //    cvSetImageROI(pImg8u, ROI_rect[0]);
 //    pImg8uROI = cvCreateImage(cvSize(ROI_rect[0].width, ROI_rect[0].height), IPL_DEPTH_8U, 1);
-    cvSetImageROI(pImg8u, ROI_rect[count-1]);
-    pImg8uROI = cvCreateImage(cvSize(ROI_rect[count-1].width, ROI_rect[count-1].height), IPL_DEPTH_8U, 1);
+    cvSetImageROI(pImg8u, ROI_rect[count]);
+    pImg8uROI = cvCreateImage(cvSize(ROI_rect[count].width, ROI_rect[count].height), IPL_DEPTH_8U, 1);
     cvCopy(pImg8u, pImg8uROI);
     cvResetImageROI(pImg8u);
 
@@ -319,8 +352,10 @@ int PlateLocation::myDiffProj(IplImage *src, IplImage *dst)
         if (i == pImg8uSmooth->height - 1) {
             row_end = pImg8uSmooth->height;
         }
+		
 		row_start = row_min1;
 		row_end = row_min2;
+
 		//画出投影图像
 		IplImage* rsum_img = cvCreateImage(cvSize(pImg8uSmooth->width, pImg8uSmooth->height*2), 8, 3);;
 		CvScalar s;
@@ -431,8 +466,8 @@ int PlateLocation::myDiffProj(IplImage *src, IplImage *dst)
         CvRect ROI_rect;                 //获得图片感兴趣区域
         ROI_rect.x = col_start;
         ROI_rect.y = row_start;
-        ROI_rect.width = col_end - col_start;
-        ROI_rect.height = row_end - row_start;
+        ROI_rect.width = abs(col_end - col_start);//防止因为出现负数而导致程序崩溃
+        ROI_rect.height = abs(row_end - row_start);
         IplImage *pImg8uROI = NULL;         //感兴趣的图片
 
         cvSetImageROI(pImg8uSmooth, ROI_rect);
@@ -556,4 +591,31 @@ int PlateLocation::myRemoveBorder(IplImage *src, int *post)
     post[1] = row_end;
 
     return 0;
+}
+
+
+int PlateLocation::getBlueMask(IplImage *src) {
+
+	//src:hsv图像，dst：单通道灰度图像
+	//对src图像三通道数据进行判断，不符合条件则将dst图像像素置黑
+	int h, s, v;
+	int hi = 135, lo = 100;
+	int sum = 0;
+	for (int i = 0; i < src->height; i++)
+	{
+		uchar* ptr = (uchar*)(src->imageData + i * src->widthStep);//第i行第1列像素的指针
+
+		for (int j = 0; j < src->width; j++)
+		{
+			h = ptr[3 * j + 0];
+			s = ptr[3 * j + 1];
+			v = ptr[3 * j + 2];
+
+			if (h < hi && h > lo)        // 色相在范围内
+			{
+				sum++;
+			}
+		}
+	}
+	return sum;
 }
