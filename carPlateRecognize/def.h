@@ -52,17 +52,5 @@ typedef  struct Sta
     int y; /* y坐标, 通常以为基点*/
 }Sta;
 
-typedef struct myHist//直方图结构体
-{
-    int size; // 直方块个数
-    int ranges[2];//像素变化范围
-    int bin_max;//最大高度直方块坐标
-    int bin_min;//最小直高度直方块坐标
-    int max_value;//最大高度直方块的值
-    int min_value;//最小高度直方块的值
-    int bin[256];//直方图各方块的像素个数
-}myHist;
-
-
 #endif // DEF_H
 

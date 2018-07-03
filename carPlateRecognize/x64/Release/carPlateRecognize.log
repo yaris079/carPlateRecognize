@@ -1,0 +1,64 @@
+﻿生成启动时间为 2018/6/29 13:19:26。
+     1>项目“F:\study\visual studio 2015\carPlateRecognize\carPlateRecognize\carPlateRecognize.vcxproj”在节点 2 上(Build 个目标)。
+     1>QtFinalize:
+         Moc'ing MainWindow.h...
+       ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I.\GeneratedFiles /I. /ID:\Qt\Qt5.9.1\5.9.1\msvc2015_64\include /I.\GeneratedFiles\Release /ID:\Qt\Qt5.9.1\5.9.1\msvc2015_64\include\QtCore /ID:\Qt\Qt5.9.1\5.9.1\msvc2015_64\include\QtGui /ID:\Qt\Qt5.9.1\5.9.1\msvc2015_64\include\QtANGLE /ID:\Qt\Qt5.9.1\5.9.1\msvc2015_64\include\QtWidgets /nologo /W1 /WX- /MP /O2 /D UNICODE /D WIN32 /D WIN64 /D QT_DLL /D QT_NO_DEBUG /D NDEBUG /D QT_CORE_LIB /D QT_GUI_LIB /D QT_WIDGETS_LIB /D _CRT_SECURE_NO_WARNINGS /D GLUT_BUILDING_LIB /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Release\\" /Fd"x64\Release\vc140.pdb" /Gd /TP /errorReport:prompt CharPartition.cpp CharRecognition.cpp main.cpp MainWindow.cpp PlateLocation.cpp PlateRecognition.cpp .\GeneratedFiles\Release\moc_MainWindow.cpp .\GeneratedFiles\qrc_carPlateRecognize.cpp
+         CharPartition.cpp
+         CharRecognition.cpp
+         main.cpp
+         MainWindow.cpp
+     1>E:\opencv_contrib\install\include\opencv2/core/mat.hpp(2586): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 CharPartition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/mat.hpp(2586): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 CharRecognition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 CharPartition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 CharRecognition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 CharPartition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 CharPartition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/mat.hpp(2586): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 main.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 CharRecognition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 CharRecognition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 main.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 main.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 main.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/imgproc.hpp(592): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 CharPartition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/mat.hpp(2586): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 MainWindow.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/imgproc.hpp(592): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 CharRecognition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 MainWindow.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 MainWindow.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/imgproc.hpp(592): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 main.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 MainWindow.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/imgproc.hpp(592): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 MainWindow.cpp)
+         PlateLocation.cpp
+         PlateRecognition.cpp
+         moc_MainWindow.cpp
+         qrc_carPlateRecognize.cpp
+     1>E:\opencv_contrib\install\include\opencv2/core/mat.hpp(2586): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 PlateLocation.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 PlateLocation.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/mat.hpp(2586): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 PlateRecognition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 PlateLocation.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/mat.hpp(2586): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 .\GeneratedFiles\Release\moc_MainWindow.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 PlateLocation.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 PlateRecognition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 .\GeneratedFiles\Release\moc_MainWindow.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 PlateRecognition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 PlateRecognition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 .\GeneratedFiles\Release\moc_MainWindow.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 .\GeneratedFiles\Release\moc_MainWindow.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/imgproc.hpp(592): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 PlateLocation.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/imgproc.hpp(592): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 PlateRecognition.cpp)
+     1>E:\opencv_contrib\install\include\opencv2/imgproc.hpp(592): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失 (编译源文件 .\GeneratedFiles\Release\moc_MainWindow.cpp)
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"F:\study\visual studio 2015\carPlateRecognize\x64\Release\\carPlateRecognize.exe" /NOLOGO /LIBPATH:D:\Qt\Qt5.9.1\5.9.1\msvc2015_64\lib /LIBPATH:E:\opencv\build\x64\vc14\lib /LIBPATH:E:\opencv_contrib\install\x86\vc12\lib qtmain.lib Qt5Core.lib Qt5Gui.lib Qt5Widgets.lib Kinect20.lib opencv_world320.lib opengl32.lib glu32.lib glut64.lib glfw3.lib glew32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"F:\study\visual studio 2015\carPlateRecognize\x64\Release\carPlateRecognize.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\study\visual studio 2015\carPlateRecognize\x64\Release\carPlateRecognize.lib" /MACHINE:X64 x64\Release\CharPartition.obj
+         x64\Release\CharRecognition.obj
+         x64\Release\main.obj
+         x64\Release\MainWindow.obj
+         x64\Release\PlateLocation.obj
+         x64\Release\PlateRecognition.obj
+         x64\Release\moc_MainWindow.obj
+         x64\Release\qrc_carPlateRecognize.obj
+         carPlateRecognize.vcxproj -> F:\study\visual studio 2015\carPlateRecognize\x64\Release\carPlateRecognize.exe
+     1>已完成生成项目“F:\study\visual studio 2015\carPlateRecognize\carPlateRecognize\carPlateRecognize.vcxproj”(Build 个目标)的操作。
+
+已成功生成。
+
+已用时间 00:00:09.00

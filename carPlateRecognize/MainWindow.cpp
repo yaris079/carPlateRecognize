@@ -24,15 +24,15 @@ void MainWindow::initMainWindow()
     m_programCopyrightLabel = new QLabel("<i>Powered by</i> yaris");
 
     m_srcImageLineEdit = new QLineEdit;
-    m_browseButton = new QPushButton("浏览...");
+    m_browseButton = new QPushButton("浏览");
 
-    m_srcImageLabel = new QLabel("加载图像");
-    m_locatePlateLabel = new QLabel("...");
+    m_srcImageLabel = new QLabel("");
+    m_locatePlateLabel = new QLabel("");
 
     for (int i=0; i<CHARS_LENGHT; i++)
-        m_partCharLabel[i] = new QLabel(QString("..."));
+        m_partCharLabel[i] = new QLabel(QString(""));
 
-    m_recognizeCharLabel = new QLabel("...");
+    m_recognizeCharLabel = new QLabel("");
     m_recognizeButton = new QPushButton("识别");
 
     m_srcImageGroupBox = new QGroupBox("原图像");

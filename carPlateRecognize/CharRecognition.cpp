@@ -1,5 +1,5 @@
 ﻿#include <QMessageBox>
-
+#include <qdebug.h>
 #include "CharRecognition.h"
 
 #pragma execution_character_set("utf-8")
@@ -24,7 +24,7 @@ QString CharRecognition::recognizeChar(IplImage **srcIplImage)
             return QString("");
         }
 
-        int r_result[38];
+        int r_result[43];
         cvThreshold(src, src, 100, 255, CV_THRESH_BINARY);
 
         IplImage *src1 = 0;
@@ -35,7 +35,7 @@ QString CharRecognition::recognizeChar(IplImage **srcIplImage)
         [京][沪][津][渝][冀][晋][蒙][辽][吉][黑][苏][浙][皖][闽][赣][鲁][豫][鄂][湘][粤][桂][琼][川][贵][云][藏][陕][甘][青][宁][新][34-64]
         */
 
-        for (i = 0; i < 38; i++) {
+        for (i = 0; i < 43; i++) {
             // If you use Windows, please uncomment this following code, and set the correct path of template floder.
             sprintf(templatePath, "./imgs/template/%d.jpg", i);
 
@@ -56,7 +56,7 @@ QString CharRecognition::recognizeChar(IplImage **srcIplImage)
         int best = 0, best_value;
         best_value = r_result[0];
 
-        for (i = 0; i < 38; i++)
+        for (i = 0; i < 43; i++)
         if (r_result[i] < best_value) {
             best_value = r_result[i];
             best = i;
@@ -89,6 +89,21 @@ QString CharRecognition::recognizeChar(IplImage **srcIplImage)
             case 37:
                 recognizeResult += "辽";
                 break;
+			case 38:
+				recognizeResult += "川";
+				break;
+			case 39:
+				recognizeResult += "吉";
+				break;
+			case 40:
+				recognizeResult += "琼";
+				break;
+			case 41:
+				recognizeResult += "京";
+				break;
+			case 42:
+				recognizeResult += "皖";
+				break;
             default:
                 // 剩余的中文字暂时不处理
                 break;
@@ -138,13 +153,17 @@ int CharRecognition::mySub(int *r_poniter1, int *r_poniter2, int leng)//各列�
 
 int CharRecognition::myGetResult_R(IplImage *src1, IplImage *src2)//
 {
-    // 这里必须要初始化，不然会照成值非常大，int越界
+    // 这里必须要初始化，不然会造成值非常大，int越界
+	int l_sum1[90] = { 0 }, l_sum2[90] = { 0 };
     int r_sum1[90] = { 0 }, r_sum2[90] = { 0 };
-    int result = 0;
+    int r1,r2,result = 0;
     myHorizontal(src1, r_sum1);
-    myVertical(src1, r_sum1);
+    myVertical(src1, l_sum1);
     myHorizontal(src2, r_sum2);
-    myVertical(src2, r_sum2);
-    result = mySub(r_sum1, r_sum2, 90);
+    myVertical(src2, l_sum2);
+	//计算各行白点个数差的绝对值之和
+    r1 = mySub(r_sum1, r_sum2, 90);
+	r2 = mySub(l_sum1, l_sum2, 90);
+	result = (r1 + r2) / 2;
     return result;
 }

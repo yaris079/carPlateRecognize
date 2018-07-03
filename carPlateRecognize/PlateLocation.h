@@ -14,7 +14,6 @@ private:
     static int myRemoveBorder(IplImage *src, int *post);
     static void myScope(IplImage *scopecopy, int x, int y, int *pionter);
     static int myGetThreshold(IplImage *src);
-    static void myCalHist(myHist *histponter, IplImage * src, int size, int *ranges);
 };
 
 #endif // PLATELOCATION_H

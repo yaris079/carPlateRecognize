@@ -1,6 +1,6 @@
 ﻿#include <QMessageBox>
 #include "PlateLocation.h"
-
+#include <qdebug.h>
 #pragma execution_character_set("utf-8")
 
 Sta sta1[IMAGE_WIDTH *IMAGE_HEIGHT];
@@ -94,7 +94,7 @@ IplImage * PlateLocation::locatePlate(const QString &srcImagePath)
     for (j = 0; j<pImgCanny1->height - MODLESIZE; j += 2) {
         for (i = 0; i<pImgCanny1->width - MODLESIZE; i += 2) {
             sum = 0;
-            // 此模版为3 * 3
+            // 此模版为3 * 3,sum为模板范围里点的个数
             for (g = j; g <= j + MODLESIZE; g++)
                 for (k = i; k <= i + MODLESIZE; k++) {
                     sum += S(pImgCanny1, k, g);
@@ -104,6 +104,7 @@ IplImage * PlateLocation::locatePlate(const QString &srcImagePath)
                 for (g = j; g <= j + MODLESIZE; g++)
                     for (k = i; k <= i + MODLESIZE; k++)
                         S(pImgCanny2, k, g) = 255;
+
             } else {
                 for (g = j; g <= j + MODLESIZE; g++)
                     for (k = i; k <= i + MODLESIZE; k++)
@@ -143,12 +144,17 @@ IplImage * PlateLocation::locatePlate(const QString &srcImagePath)
             }
         }
 
+	//在原图像中圈出车牌
+	for (i = 0;i < count;i++) {
+		cvRectangle(pImgSrc, cvPoint(ROI_rect[i].x, ROI_rect[i].y), cvPoint(ROI_rect[i].x+ ROI_rect[i].width, ROI_rect[i].y+ ROI_rect[i].height), cvScalar(0, 0, 255), 3, 4, 0);
+	}
+
     if (count == 0) {
-        QMessageBox::warning(NULL, "警告", "识别失败,请选择其他图片");
+        QMessageBox::warning(NULL, "警告", "未找到车牌区域,请选择其他图片");
         return NULL;
     }
 
-    IplImage *pImg8uROI = NULL;         //感兴趣的图片
+    IplImage *pImg8uROI = NULL;         //感兴趣的部分
 //    cvSetImageROI(pImg8u, ROI_rect[0]);
 //    pImg8uROI = cvCreateImage(cvSize(ROI_rect[0].width, ROI_rect[0].height), IPL_DEPTH_8U, 1);
     cvSetImageROI(pImg8u, ROI_rect[count-1]);
@@ -185,23 +191,23 @@ IplImage * PlateLocation::locatePlate(const QString &srcImagePath)
     pImgThr = cvCreateImage(cvGetSize(pImgdst1), IPL_DEPTH_8U, 1);
     cvSmooth(pImgdst1, pImg8uSmooth, CV_GAUSSIAN, 3, 0, 0);//高斯滤波
 
-    int Thres = myGetThreshold(pImg8uSmooth);
-    cvThreshold(pImg8uSmooth, pImgThr, Thres, 255, CV_THRESH_BINARY);
-	
+    //大津法求阈值并进行阈值分割
+	cvThreshold(pImg8uSmooth, pImgThr, 0, 255, CV_THRESH_OTSU);
 
 	//保存中间图像
-	cvSaveImage("./result/pImgSrc.jpg", pImgSrc);
-	cvSaveImage("./result/pImgGray.jpg", pImg8u);
-	cvSaveImage("./result/pImg8uROI.jpg", pImg8uROI);
-	cvSaveImage("./result/pImg8uSmooth.jpg", pImg8uSmooth);
-	cvSaveImage("./result/pImgCanny.jpg", pImgCanny);
-	cvSaveImage("./result/pImgCanny1.jpg", pImgCanny1);
-	cvSaveImage("./result/pImgCanny2.jpg", pImgCanny2);
-	cvSaveImage("./result/mycopy.jpg", mycopy);
-	cvSaveImage("./result/pImgdst.jpg", pImgdst);
-	cvSaveImage("./result/pImgResize.jpg", pImgResize);
-	cvSaveImage("./result/pImgResize1.jpg", pImgResize1);
-	cvSaveImage("./result/pImgdst1.jpg", pImgdst1);
+	cvSaveImage("./imgs/result/pImgSrc.jpg", pImgSrc);
+	cvSaveImage("./imgs/result/pImg8u.jpg", pImg8u);
+	cvSaveImage("./imgs/result/pImg8uROI.jpg", pImg8uROI);
+	cvSaveImage("./imgs/result/pImg8uSmooth.jpg", pImg8uSmooth);
+	cvSaveImage(".imgs//result/pImgCanny.jpg", pImgCanny);
+	cvSaveImage("./imgs/result/pImgCanny1.jpg", pImgCanny1);
+	cvSaveImage("./imgs/result/pImgCanny2.jpg", pImgCanny2);
+	cvSaveImage("./imgs/result/mycopy.jpg", mycopy);
+	cvSaveImage("./imgs/result/pImgdst.jpg", pImgdst);
+	cvSaveImage("./imgs/result/pImgResize.jpg", pImgResize);
+	cvSaveImage("./imgs/result/pImgResize1.jpg", pImgResize1);
+	cvSaveImage("./imgs/result/pImgdst1.jpg", pImgdst1);
+	cvSaveImage("./imgs/result/pImgThr.jpg", pImgThr);
 
     //销毁无用图像
     cvReleaseImage(&pImgSrc);
@@ -220,6 +226,7 @@ IplImage * PlateLocation::locatePlate(const QString &srcImagePath)
     return pImgThr;
 }
 
+//对图像进行切割，去除边缘
 int PlateLocation::myDiffProj(IplImage *src, IplImage *dst)
 {
     int i, j, r_max, r_max_value;//r_max为最大峰值所在行,r_max_value最大峰值的值
@@ -227,13 +234,15 @@ int PlateLocation::myDiffProj(IplImage *src, IplImage *dst)
     int r_sum[1600] = { 0 }, l_sum[1600] = { 0 }, sum = 0;//r_sum[i]为i行差分值之和,l_sum[i]为i列差分值之和,sum累加单元
 
     IplImage *pImg8uSmooth = NULL;       //高斯滤波后的图
-
+	IplImage *pImgThr = NULL;			 //二值化后的图
     if (!src) {
-        QMessageBox::warning(NULL, "警告", "不能载入源图像");
+        QMessageBox::warning(NULL, "警告", "不能载入车牌区域");
         return -1;
     } else {
         pImg8uSmooth = cvCreateImage(cvGetSize(src), IPL_DEPTH_8U, 1);
+		pImgThr = cvCreateImage(cvGetSize(src), IPL_DEPTH_8U, 1);
         cvSmooth(src, pImg8uSmooth, CV_GAUSSIAN, 3, 0, 0);//高斯滤波
+		cvThreshold(pImg8uSmooth, pImgThr, 0, 255, CV_THRESH_OTSU);
 
         // 水平投影
         // 水平方向一阶差分
@@ -242,10 +251,10 @@ int PlateLocation::myDiffProj(IplImage *src, IplImage *dst)
             for (i = 0; i<pImg8uSmooth->width - 2; i++) {
                 sum += abs((S(pImg8uSmooth, i, j) - S(pImg8uSmooth, i + 1, j)));//差分，累加
             }
-            r_sum[j] = sum;// 保存累加结果
+            r_sum[j] = sum;// 保存累加结果，即累加水平梯度
         }
         for (j = 1; j<pImg8uSmooth->height - 2; j++) {
-            r_sum[j] = (int)((r_sum[j - 1] + r_sum[j] + r_sum[j + 1]) / 3);//平滑
+            r_sum[j] = (int)((r_sum[j - 1] + r_sum[j] + r_sum[j + 1]) / 3);//平滑，均值法
         }
 
         r_max_value = r_sum[0];//寻找最大峰值
@@ -310,6 +319,35 @@ int PlateLocation::myDiffProj(IplImage *src, IplImage *dst)
         if (i == pImg8uSmooth->height - 1) {
             row_end = pImg8uSmooth->height;
         }
+		row_start = row_min1;
+		row_end = row_min2;
+		//画出投影图像
+		IplImage* rsum_img = cvCreateImage(cvSize(pImg8uSmooth->width, pImg8uSmooth->height*2), 8, 3);;
+		CvScalar s;
+		s.val[0] = 0; // B
+		s.val[1] = 0; // G
+		s.val[2] = 0; // R
+		//初始化背景颜色
+		for (int i = 0; i < pImg8uSmooth->height*2; i++) // 图像高度
+			for (int j = 0; j < pImg8uSmooth->width; j++) // 图像宽度
+				cvSet2D(rsum_img, i, j, s); //图像赋值
+
+		for (j = 0; j < pImg8uSmooth->height; j++) {
+			if(j == row_start || j == row_end || j == row_min1 || j == row_min2)
+				cvRectangle(rsum_img,
+					cvPoint(0, j * 2),
+					cvPoint(pImg8uSmooth->width, j * 2 + 1),
+					CV_RGB(255, 0, 0));
+			else 
+				cvRectangle(rsum_img,
+					cvPoint(0, j * 2),
+					cvPoint(pImg8uSmooth->width*r_sum[j] / r_max_value, j * 2 + 1),
+					CV_RGB(255, 255, 255));
+		}
+/*		cvNamedWindow("12", WINDOW_NORMAL);
+		cvShowImage("12", rsum_img);
+		cvShowImage("1", pImg8uSmooth);*/
+		cvSaveImage("./imgs/result/rsum_img.jpg", rsum_img);		
 
         int col_start = -1, col_end = -1;
 
@@ -335,7 +373,6 @@ int PlateLocation::myDiffProj(IplImage *src, IplImage *dst)
         int flag = 1, rig_max = 0, last_max = 0;
         for (j = 1; j<pImg8uSmooth->width - 1; j++)//搜索满足条件的起始和结束峰值
         if (l_sum[j] >= l_sum[j - 1] && l_sum[j]>l_sum[j + 1] && l_sum[j]>0.5*l_max_value) {
-
             if (flag) {
                 rig_max = j;
                 flag = 0;
@@ -368,6 +405,29 @@ int PlateLocation::myDiffProj(IplImage *src, IplImage *dst)
             col_end = pImg8uSmooth->width;
         }
 
+		//画出投影图像
+		IplImage* lsum_img = cvCreateImage(cvSize(pImg8uSmooth->width*2, pImg8uSmooth->height), 8, 3);
+
+		//初始化背景颜色
+		for (int i = 0; i < pImg8uSmooth->height; i++) // 图像高度
+			for (int j = 0; j < pImg8uSmooth->width * 2; j++) // 图像宽度
+				cvSet2D(lsum_img, i, j, s); //图像赋值
+
+		for (j = 0; j < pImg8uSmooth->width; j++) {
+			if (j == col_start || j == col_end || j == rig_max || j == last_max)
+				cvRectangle(lsum_img,
+					cvPoint(j * 2, pImg8uSmooth->height),
+					cvPoint(j * 2 + 1, 0),
+					CV_RGB(255, 0, 0));
+			else
+				cvRectangle(lsum_img,
+					cvPoint(j * 2, pImg8uSmooth->height),
+					cvPoint(j * 2 + 1, pImg8uSmooth->height - (pImg8uSmooth->height*l_sum[j] / l_max_value)),
+					CV_RGB(255, 255, 255));
+		}
+		cvSaveImage("./imgs/result/lsum_img.jpg", lsum_img);
+/*  	cvNamedWindow("22", WINDOW_NORMAL);
+		cvShowImage("22", lsum_img);*/
         CvRect ROI_rect;                 //获得图片感兴趣区域
         ROI_rect.x = col_start;
         ROI_rect.y = row_start;
@@ -382,12 +442,16 @@ int PlateLocation::myDiffProj(IplImage *src, IplImage *dst)
 
         cvResize(pImg8uROI, dst, CV_INTER_LINEAR); //线性插值
 
+		//释放资源
+		cvReleaseImage(&lsum_img);
+		cvReleaseImage(&rsum_img);
         return 0;
     }
 
     return -1;
 }
 
+//找到连通区域外接矩形
 void PlateLocation::myScope(IplImage *scopecopy, int x, int y, int *pionter)
 {
     S(scopecopy, x, y) = FLAG;//标记，变为黑色
@@ -493,68 +557,3 @@ int PlateLocation::myRemoveBorder(IplImage *src, int *post)
 
     return 0;
 }
-
-int PlateLocation::myGetThreshold(IplImage *src)
-{
-    IplImage *pImg8uSmooth = NULL;       //高斯滤波后的图
-
-    pImg8uSmooth = cvCreateImage(cvGetSize(src), IPL_DEPTH_8U, 1);
-    cvSmooth(src, pImg8uSmooth, CV_GAUSSIAN, 3, 0, 0);//高斯滤波
-    int size = 125, i = 0;
-    int ranges[2] = { 0, 255 };
-    int THRESHOLD = 0;
-    myHist hist;
-    myCalHist(&hist, pImg8uSmooth, size, ranges);
-
-    for (i = hist.bin_max; i<hist.size - 4; i++) {
-        if (hist.bin[i]<hist.bin[i + 1] && hist.bin[i + 1]<hist.bin[i + 2] && hist.bin[i + 2]<hist.bin[i + 3])
-            break;
-    }
-
-    if (i<hist.size - 4)
-        THRESHOLD = (hist.ranges[1] - hist.ranges[0]) / hist.size*i;
-    else
-        THRESHOLD = (hist.ranges[1] - hist.ranges[0]) / hist.size*hist.bin_max;
-
-    return THRESHOLD;
-
-}
-
-void PlateLocation::myCalHist(myHist *histponter, IplImage * src, int size, int *ranges)//
-{
-    int i = 0, j = 0, k = 0, counter = 0;//计数器，记录某一范围中像素的个数
-
-    int bin_wid = (ranges[1] - ranges[0]) / size;//每个所表示的直方块像素范围
-
-    while (k<size) {
-        counter = 0;
-        histponter->bin[k] = 0;
-        for (i = 0; i<src->width; i++)
-        for (j = 0; j<src->height; j++) {
-            if (S(src, i, j)>k*bin_wid&&S(src, i, j)<(k + 1)*bin_wid)
-                counter++;
-        }
-        histponter->bin[k++] = counter;
-    }
-
-    histponter->size = size;
-    histponter->ranges[0] = ranges[0];
-    histponter->ranges[1] = ranges[1];
-
-    histponter->max_value = histponter->bin[0];
-    histponter->bin_max = 0;
-    for (i = 0; i<k; i++) {
-        if (histponter->bin[i]>histponter->max_value){ histponter->max_value = histponter->bin[i]; histponter->bin_max = i; }
-    }
-
-    histponter->min_value = histponter->bin[0];
-    histponter->bin_min = 0;
-    for (i = 0; i<k; i++) {
-        if (histponter->bin[i]<histponter->min_value) {
-            histponter->min_value = histponter->bin[i];
-            histponter->bin_min = i;
-        }
-    }
-}
-
-
